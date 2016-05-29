@@ -1,0 +1,18 @@
+#!/usr/bin/python
+
+import os
+
+with open("primes1.txt", 'r') as primes:
+	with open("trial_div.py", "w") as output:
+		output.write(r"#!/usr/bin/python")
+		output.write("\nimport sys\nfrom fractions import gcd\n")
+		output.write("primes = [")
+		for line in primes:
+			args = line.strip().split()
+			for prime in args:
+				output.write(prime + ",")
+		output.seek(-1, os.SEEK_END)
+		output.truncate()
+		output.write("]\n\n" + \
+		"def fact(j):\n\tfor item in primes:\n\t\tc=gcd(item,j)\n\t\tif c != 1 and c != j:\n\t\t\treturn c, j // c\n\treturn 0, 0\ndef prime(n):\n\tif n in primes:\n\t\treturn True\n\treturn False") 
+			

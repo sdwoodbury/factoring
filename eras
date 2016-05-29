@@ -1,0 +1,15 @@
+#!/usr/bin/python
+
+def primes_sieve2(limit):
+	a = [1] * limit                          # Initialize the primality list
+	a[0] = a[1] = 0
+	with open("primes.txt", "w") as output:
+		for i in range(2, limit):
+			if a[i] == 1:
+				output.write((str)(i) + ' ')
+			for n in xrange(i*i, limit, i):     # Mark factors non-prime
+				a[n] = False
+
+primes_sieve2(549999991)
+
+
