@@ -55,7 +55,6 @@ decoded message: "I deserve an A"
 
 
 import sys, random, time, math
-import trial_div
 
 def bits(n): #source: from http://eli.thegreenplace.net/2009/03/28/efficient-modular-exponentiation-algorithms
 	z = []
@@ -91,17 +90,13 @@ def witness(a, n):
 		return 1
 	return 0
 	
-#returns 1 if not prime, 0 if prime
+
 def prime(n):
-	if n < 549999991:
-		if trial_div.prime(n) == True:
-			return 0
-		else:
-			return 1		
 	pseudo = lr(2, n - 1, n)
 	l = e_e(pseudo, n)
 	if l[0] != 1:
 		return 1
+
 	for i in range(0, 40):
 		a = random.randint(1, n - 1)
 		if witness(a, n) == 1:
@@ -168,5 +163,64 @@ def go(bits):
 	d = l[1]
 
 	return [d, e, n]
+
+
+
+bit = (long)(sys.argv[1])
+random.seed()
+pub = 0
+priv = 0
+mod = 0
+while 1:
+	r = go(bit)
+
+	m = 552032038589349 #i do a little test to make sure the keys work
+	M = lr(m,r[0],r[2])
+	D = lr(M,r[1],r[2])
+	if m ==  D:
+		pub = r[0]
+		priv = r[1]
+		mod = r[2]
+		if mod.bit_length() == bit: #testing that the key length is correct
+			break
+
+print "public key: ", pub, "\n"
+print "private key: ", priv, "\n"
+print "modulus: ", mod
+
+print "\n\n beginning test of encryption:"
+
+M = "I deserve an A"
+
+def encode(message, private, modulus):
+	blocks = [i for i in message]
+	enc_blocks = []
+	for m in blocks:
+		x = 0
+		for c in m:
+			x = x << 8
+			x = x ^ ord(c)
+		enc_blocks.append( lr(x, private,modulus))
+	return enc_blocks
+
+def decode(message, public, modulus):
+	ret_str = ''
+	for item in message:
+		temp = 0
+		item = lr(item, public, modulus)
+		z = ''
+		while item > 0:
+			temp = item & 255
+			z += chr(temp)
+			item = item >> 8
+		ret_str += z
+	return ret_str[::1]
+
+print "unencoded message: ", M
+x = encode(M, pub, mod)
+print "enoded message: ", x
+y = decode(x, priv, mod)
+print "decoded message: ", y
+
 
 

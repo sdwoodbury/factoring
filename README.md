@@ -7,4 +7,4 @@ perform encryption via modular exponentiation. it uses the Miller-Rabin
 primality test
 
 factor.py uses Pollards-rho to factor numbers
-
+factor_file factors a whole file of numbers. the file layout is name: number

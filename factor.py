@@ -2,7 +2,6 @@
 
 import sys, random, math
 from fractions import gcd
-import trial_div
 
 def bits(n): #source: from http://eli.thegreenplace.net/2009/03/28/efficient-modular-exponentiation-algorithms
 	z = []
@@ -22,7 +21,7 @@ def lr(a, b, n): #source: from http://eli.thegreenplace.net/2009/03/28/efficient
 def f(x, n, m):
 	return ( lr(x, 2, n)  - m) % n
 
-def factor(n):
+def factor(a, n):
 	for m in [1, 1, 1]:
 		random.seed()
 		a = random.randint(2, n - 1)
@@ -34,8 +33,7 @@ def factor(n):
 		stop = math.floor(pow((float)(n), .25))
 		while c == 1 and counter < stop:
 			if (a <= 0 or b <= 0):
-				#print "error in factor"
-				return 0
+				return n
 			a = f(a, n, m)
 			b = f(f(b, n, m), n, m)
 			c = gcd(abs(a - b), n)
@@ -43,7 +41,17 @@ def factor(n):
 		if(c * (n // c) == n):
 			return c
 		print "fail"
-	print "error in factor"
-	return 0
+	return -1
 
+random.seed()
+n = (long)(sys.argv[1])
+#a = 49999991
+a = random.randint(2, n - 1)
 
+#x, y =  trial_div.fact(n)
+#if x == 0:
+c = factor(a, n)
+if(c * (n // c) == n):
+	print c, n // c
+else:
+	print "fail"
