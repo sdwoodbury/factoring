@@ -67,31 +67,22 @@ for x in nums:
 	#if x == 0:
 	a, b = trial_div.fact(n)
 	if(a != 0):
-		print n, a, b//a
-'''
-random.seed()
-n = (long)(sys.argv[1])
-#a = 49999991
-a = random.randint(2, n - 1)
-
-#x, y =  trial_div.fact(n)
-#if x == 0:
-c = factor(a, n)
-if c == 0:
-	print "fail"
-elif(c * (n // c) == n):
-	print c, n // c
-else:
-	print "fail"
-
-	while c == n:
-		print "fail"
-		a += 1
 		c = factor(a, n)
-	if(c * (n // c) == n):
-		print c, n // c
+			if c == 0:
+				print "fail"
+		elif(c * (n // c) == n):
+			print c, n // c
+		else:
+			print "fail"
+
+			while c == n:
+				print "fail"
+				a += 1
+				c = factor(a, n)
+			if(c * (n // c) == n):
+			print c, n // c
+		else:
+			print "fail again"
 	else:
-		print "fail again"
-else:
-	print x, y
-'''
+		print x, y
+
